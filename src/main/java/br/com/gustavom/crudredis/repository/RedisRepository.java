@@ -15,10 +15,14 @@ public class RedisRepository {
 
     private static final String KEY_USUARIO = "usuarios";
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-    private HashOperations<String, Integer, Usuario> hashOperations;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private HashOperations<String, UUID, Usuario> hashOperations;
     private ObjectMapper mapper;
+
+    @Autowired
+    public RedisRepository(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @PostConstruct
     private void init(){
@@ -26,11 +30,11 @@ public class RedisRepository {
         mapper = new ObjectMapper();
     }
 
-    public void save(Usuario value) {
-        hashOperations.put(KEY_USUARIO, value.getId(), value);
+    public void save(Usuario usuario) {
+        hashOperations.put(KEY_USUARIO, usuario.getId(), usuario);
     }
 
-    public Usuario findByid(int id){
+    public Usuario findByid(UUID id){
         return mapper.convertValue(hashOperations.get(KEY_USUARIO, id), Usuario.class);
     }
 
@@ -38,11 +42,11 @@ public class RedisRepository {
         return hashOperations.values(KEY_USUARIO);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(UUID id) {
         hashOperations.delete(KEY_USUARIO, id);
     }
 
-    public boolean updateById(int id, Usuario user){
+    public boolean updateById(UUID id, Usuario user){
         Usuario usuarioRedis = this.findByid(id);
         if(Objects.nonNull(usuarioRedis)){
             user.setId(usuarioRedis.getId());
