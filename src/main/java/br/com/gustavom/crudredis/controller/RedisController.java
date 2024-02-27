@@ -13,10 +13,14 @@ import java.util.List;
 @RequestMapping("/usuario")
 public class RedisController {
 
-    @Autowired
     private RedisService service;
 
-    @PostMapping("")
+    @Autowired
+    public RedisController(RedisService service) {
+        this.service = service;
+    }
+
+    @PostMapping()
     public ResponseEntity<String> gravaUsuario(@RequestBody Usuario usuario){
         service.gravaUsuario(usuario);
         return ResponseEntity.ok().body("Gravado com sucesso!");
@@ -27,7 +31,7 @@ public class RedisController {
         return ResponseEntity.ok().body(service.getUsuario(id));
     }
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<Usuario>> buscaTodosOsUsuarios(){
         return ResponseEntity.ok().body(service.findAll());
     }
