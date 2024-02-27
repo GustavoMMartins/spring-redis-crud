@@ -38,14 +38,14 @@ public class RedisController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletaUsuario(@PathVariable String id){
-        service.deleteById(UUID.fromString(id));
+    public ResponseEntity<String> deletaUsuario(@PathVariable UUID id){
+        service.deleteById(id);
         return ResponseEntity.ok().body("Usuario deletado com sucesso");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> alteraUsuario(@PathVariable String id, @RequestBody Usuario usuario){
-        if(service.updateByid(UUID.fromString(id),usuario)){
+    public ResponseEntity<String> alteraUsuario(@PathVariable UUID id, @RequestBody Usuario usuario){
+        if(service.updateByid(id,usuario)){
             return ResponseEntity.ok().body("Usuario Alterado!");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado!");
