@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuario")
@@ -27,7 +28,7 @@ public class RedisController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscaUsuario(@PathVariable int id){
+    public ResponseEntity<Usuario> buscaUsuario(@PathVariable UUID id){
         return ResponseEntity.ok().body(service.getUsuario(id));
     }
 
@@ -37,13 +38,13 @@ public class RedisController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletaUsuario(@PathVariable int id){
+    public ResponseEntity<String> deletaUsuario(@PathVariable UUID id){
         service.deleteById(id);
         return ResponseEntity.ok().body("Usuario deletado com sucesso");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> alteraUsuario(@PathVariable int id, @RequestBody Usuario usuario){
+    public ResponseEntity<String> alteraUsuario(@PathVariable UUID id, @RequestBody Usuario usuario){
         if(service.updateByid(id,usuario)){
             return ResponseEntity.ok().body("Usuario Alterado!");
         } else {

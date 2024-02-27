@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
 
     @Id
-    private int id;
+    private UUID id = UUID.randomUUID();
     private String nome;
     private Long idade;
 
